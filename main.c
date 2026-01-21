@@ -12,6 +12,7 @@ int main(void)
 	ssize_t read;
 	pid_t pid;
 	int status;
+	char *argv[2];
 
 	line = NULL;
 	len = 0;
@@ -28,16 +29,22 @@ int main(void)
 			exit(0);
 		}
 
-		/* remove newline */
+		/* ignore empty or spaces-only lines */
+		if (read <= 1)
+			continue;
+
 		if (line[read - 1] == '\n')
 			line[read - 1] = '\0';
+
+		argv[0] = line;
+		argv[1] = NULL;
 
 		pid = fork();
 		if (pid == 0)
 		{
-			if (execve(line, NULL, environ) == -1)
+			if (execve(argv[0], argv, environ) == -1)
 			{
-				perror("./shell");
+				perror("./hsh");
 				exit(1);
 			}
 		}
@@ -47,7 +54,7 @@ int main(void)
 		}
 		else
 		{
-			perror("./shell");
+			perror("./hsh");
 		}
 	}
 }
