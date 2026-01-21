@@ -35,3 +35,27 @@ int execute_command(char **argv, shell_state_t *state)
 
 	return (0);
 }
+/**
+ * execute_cmd - forks and executes a command
+ * @cmd: command to execute
+ */
+void execute_cmd(char *cmd)
+{
+	pid_t pid;
+	char *argv[2];
+
+	argv[0] = cmd;
+	argv[1] = NULL;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		if (execve(cmd, argv, environ) == -1)
+			perror("./hsh");
+		exit(EXIT_FAILURE);
+	}
+	else if (pid > 0)
+	{
+		wait(NULL);
+	}
+}

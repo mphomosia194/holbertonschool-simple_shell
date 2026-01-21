@@ -4,34 +4,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <sys/wait.h>
 #include <string.h>
+#include <sys/wait.h>
 
-/**
- * struct shell_state - shell runtime state
- * @name: program name (argv[0])
- * @count: command counter
- */
-typedef struct shell_state
-{
-	char *name;
-	unsigned int count;
-} shell_state_t;
+extern char **environ;
 
-/* core */
-void shell_loop(shell_state_t *state);
-
-/* parsing */
-char **parse_line(char *line);
+/* shell loop */
+void shell_loop(void);
 
 /* execution */
-int execute_command(char **argv, shell_state_t *state);
+void execute_cmd(char *cmd);
 
-/* errors */
-void print_not_found(shell_state_t *state, char *cmd);
-
-/* utils */
-void free_argv(char **argv);
-extern char **environ;
+/* helpers */
+char *trim_spaces(char *str);
 
 #endif /* SHELL_H */

@@ -2,35 +2,34 @@
 
 /**
  * shell_loop - main shell loop
- * @state: shell state
  */
-void shell_loop(shell_state_t *state)
+void shell_loop(void)
 {
-	char *line;
-	size_t len;
+	char *line = NULL;
+	size_t len = 0;
 	ssize_t read;
-	char **argv;
-
-	line = NULL;
-	len = 0;
+	char *cmd;
 
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
-			write(STDOUT_FILENO, "($) ", 4);
+			write(STDOUT_FILENO, "#cisfun$ ", 9);
 
 		read = getline(&line, &len, stdin);
 		if (read == -1)
 		{
 			free(line);
-			exit(0);
+			exit(EXIT_SUCCESS);
 		}
 
-		state->count++;
-		argv = parse_line(line);
-		if (argv && argv[0])
-			execute_command(argv, state);
+		if (line[read - 1] == '\n')
+			line[read - 1] = '\0';
 
-		free_argv(argv);
+		cmd = trim_spaces(line);
+
+		if (*cmd == '\0')
+			continue;
+
+		execute_cmd(cmd);
 	}
 }
