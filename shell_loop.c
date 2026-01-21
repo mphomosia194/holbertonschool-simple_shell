@@ -1,24 +1,23 @@
 #include "shell.h"
 
 /**
- * shell_loop - main shell execution loop
+ * shell_loop - main shell loop
  * @state: shell state
  */
 void shell_loop(shell_state_t *state)
 {
 	char *line = NULL;
 	size_t len = 0;
-	ssize_t nread;
+	ssize_t read;
 	char **argv;
-	int i;
 
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
 			write(STDOUT_FILENO, "($) ", 4);
 
-		nread = getline(&line, &len, stdin);
-		if (nread == -1)
+		read = getline(&line, &len, stdin);
+		if (read == -1)
 			break;
 
 		argv = parse_line(line);
@@ -29,11 +28,7 @@ void shell_loop(shell_state_t *state)
 		}
 
 		state->count++;
-
 		execute_command(argv, state);
-
-		for (i = 0; argv[i]; i++)
-			free(argv[i]);
 		free(argv);
 	}
 

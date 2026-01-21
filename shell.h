@@ -6,28 +6,35 @@
 #include <unistd.h>
 #include <string.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 
 extern char **environ;
 
 /**
- * struct shell_state
- * @av: argument vector
+ * struct shell_state - shell state
+ * @name: program name
  * @count: command count
  */
 typedef struct shell_state
 {
-	char **av;
-	int count;
+	char *name;
+	unsigned int count;
 } shell_state_t;
 
 /* core */
 void shell_loop(shell_state_t *state);
 
-/* helpers */
+/* parsing */
 char **parse_line(char *line);
+
+/* execution */
 int execute_command(char **argv, shell_state_t *state);
+
+/* path */
 char *find_command(char *cmd);
+char *get_env(const char *name);
+
 /* errors */
-void print_not_found(char *name, int count, char *cmd);
+void print_not_found(shell_state_t *state, char *cmd);
 
 #endif

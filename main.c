@@ -13,9 +13,10 @@ int main(int argc, char **argv)
 
 	(void)argc;
 
-	state.av = argv;
+	state.name = argv[0];
 	state.count = 0;
 
 	shell_loop(&state);
+
 	return (0);
 }

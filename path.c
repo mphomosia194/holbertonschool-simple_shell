@@ -1,52 +1,43 @@
 #include "shell.h"
-#include <sys/stat.h>
 
 /**
  * find_command - finds command in PATH
  * @cmd: command name
  *
- * Return: full path to command or NULL
+ * Return: full path or NULL
  */
 char *find_command(char *cmd)
 {
-	char *path, *path_copy, *dir, *full_path;
+	char *path, *path_copy, *dir, *full;
 	struct stat st;
 
 	if (!cmd)
 		return (NULL);
 
-	/* If command contains '/', check directly */
-	if (strchr(cmd, '/'))
-	{
-		if (stat(cmd, &st) == 0 && (st.st_mode & X_OK))
-			return (strdup(cmd));
-		return (NULL);
-	}
+	if (stat(cmd, &st) == 0 && (st.st_mode & X_OK))
+		return (strdup(cmd));
 
-	path = getenv("PATH");
-	if (!path || path[0] == '\0')
+	path = get_env("PATH");
+	if (!path)
 		return (NULL);
 
 	path_copy = strdup(path);
-	if (!path_copy)
-		return (NULL);
-
 	dir = strtok(path_copy, ":");
+
 	while (dir)
 	{
-		full_path = malloc(strlen(dir) + strlen(cmd) + 2);
-		if (!full_path)
+		full = malloc(strlen(dir) + strlen(cmd) + 2);
+		if (!full)
 			break;
 
-		sprintf(full_path, "%s/%s", dir, cmd);
-
-		if (stat(full_path, &st) == 0 && (st.st_mode & X_OK))
+		sprintf(full, "%s/%s", dir, cmd);
+		if (stat(full, &st) == 0 && (st.st_mode & X_OK))
 		{
 			free(path_copy);
-			return (full_path);
+			return (full);
 		}
 
-		free(full_path);
+		free(full);
 		dir = strtok(NULL, ":");
 	}
 
