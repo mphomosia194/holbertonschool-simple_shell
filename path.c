@@ -1,4 +1,5 @@
 #include "shell.h"
+#include <sys/stat.h>
 
 /**
  * find_command - finds command in PATH
@@ -23,7 +24,7 @@ char *find_command(char *cmd)
 	}
 
 	path = getenv("PATH");
-	if (!path)
+	if (!path || path[0] == '\0')
 		return (NULL);
 
 	path_copy = strdup(path);
