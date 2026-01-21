@@ -26,7 +26,7 @@ void shell_loop(shell_state_t *state);
 /* helpers */
 char **parse_line(char *line);
 int execute_command(char **argv, shell_state_t *state);
-
+char *find_command(char *cmd);
 /* errors */
 void print_not_found(char *name, int count, char *cmd);
 
