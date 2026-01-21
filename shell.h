@@ -6,7 +6,6 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <string.h>
-#include <errno.h>
 
 /**
  * struct shell_state - shell execution state
@@ -19,19 +18,11 @@ typedef struct shell_state
 	unsigned int line_count;
 } shell_state_t;
 
-/* core loop */
 void shell_loop(shell_state_t *state);
 
-/* parsing */
 char **parse_line(char *line);
-
-/* execution */
 int execute_command(char **argv, shell_state_t *state);
-
-/* errors */
 void print_not_found(shell_state_t *state, char *cmd);
-
-/* utils */
 void free_argv(char **argv);
 
 extern char **environ;
