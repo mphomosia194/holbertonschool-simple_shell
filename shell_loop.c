@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * shell_loop - main shell loop
+ * shell_loop - main shell execution loop
  * @state: shell state
  */
 void shell_loop(shell_state_t *state)
@@ -18,10 +18,7 @@ void shell_loop(shell_state_t *state)
 
 		read = getline(&line, &len, stdin);
 		if (read == -1)
-		{
-			free(line);
 			break;
-		}
 
 		if (line[0] == '\n')
 			continue;
