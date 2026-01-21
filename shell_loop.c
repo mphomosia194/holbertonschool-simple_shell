@@ -20,18 +20,16 @@ void shell_loop(shell_state_t *state)
 		if (read == -1)
 			break;
 
-		if (line[0] == '\n')
-			continue;
-
 		argv = parse_line(line);
 		if (!argv || !argv[0])
 		{
-			free_argv(argv);
+			free(argv);
 			continue;
 		}
 
+		state->count++;
 		execute_command(argv, state);
-		free_argv(argv);
+		free(argv);
 	}
 
 	free(line);

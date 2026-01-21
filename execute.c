@@ -1,11 +1,11 @@
 #include "shell.h"
 
 /**
- * execute_command - executes a command
+ * execute_command - executes a command with arguments
  * @argv: argument vector
  * @state: shell state
  *
- * Return: 1 on success, 0 otherwise
+ * Return: 0 on success, -1 on failure
  */
 int execute_command(char **argv, shell_state_t *state)
 {
@@ -13,26 +13,25 @@ int execute_command(char **argv, shell_state_t *state)
 	int status;
 
 	if (!argv || !argv[0])
-		return (0);
+		return (-1);
 
 	pid = fork();
 	if (pid == 0)
 	{
 		if (execve(argv[0], argv, environ) == -1)
 		{
-			print_not_found(state, argv[0]);
+			print_not_found(state->av[0], state->count, argv[0]);
 			exit(127);
 		}
 	}
-	else if (pid > 0)
+	else if (pid < 0)
 	{
-		wait(&status);
-		state->line_count++;
+		return (-1);
 	}
 	else
 	{
-		perror(state->argv0);
+		wait(&status);
 	}
 
-	return (1);
+	return (0);
 }
