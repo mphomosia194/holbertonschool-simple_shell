@@ -32,5 +32,6 @@ void print_not_found(shell_state_t *state, char *cmd);
 
 /* utils */
 void free_argv(char **argv);
+extern char **environ;
 
 #endif /* SHELL_H */
