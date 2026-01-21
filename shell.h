@@ -20,9 +20,14 @@ typedef struct shell_state
 	int count;
 } shell_state_t;
 
+/* core */
 void shell_loop(shell_state_t *state);
+
+/* helpers */
 char **parse_line(char *line);
 int execute_command(char **argv, shell_state_t *state);
+
+/* errors */
 void print_not_found(char *name, int count, char *cmd);
 
 #endif

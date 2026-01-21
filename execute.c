@@ -1,11 +1,11 @@
 #include "shell.h"
 
 /**
- * execute_command - executes a command with arguments
+ * execute_command - executes a command
  * @argv: argument vector
  * @state: shell state
  *
- * Return: 0 on success, -1 on failure
+ * Return: 0 on success
  */
 int execute_command(char **argv, shell_state_t *state)
 {
@@ -25,13 +25,9 @@ int execute_command(char **argv, shell_state_t *state)
 		}
 	}
 	else if (pid < 0)
-	{
 		return (-1);
-	}
 	else
-	{
 		wait(&status);
-	}
 
 	return (0);
 }

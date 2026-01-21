@@ -5,7 +5,7 @@
  * @argc: argument count
  * @argv: argument vector
  *
- * Return: 0 on success
+ * Return: 0
  */
 int main(int argc, char **argv)
 {
@@ -13,10 +13,9 @@ int main(int argc, char **argv)
 
 	(void)argc;
 
-	state.argv0 = argv[0];
-	state.line_count = 1;
+	state.av = argv;
+	state.count = 0;
 
 	shell_loop(&state);
-
 	return (0);
 }

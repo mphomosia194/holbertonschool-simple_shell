@@ -1,12 +1,12 @@
 #include "shell.h"
 
 /**
- * print_not_found - print command not found error
- * @state: shell state
- * @cmd: command name
+ * print_not_found - prints command not found error
+ * @name: program name (argv[0])
+ * @count: command count
+ * @cmd: command entered
  */
-void print_not_found(shell_state_t *state, char *cmd)
+void print_not_found(char *name, int count, char *cmd)
 {
-	fprintf(stderr, "%s: %u: %s: not found\n",
-		state->argv0, state->line_count, cmd);
+	fprintf(stderr, "%s: %d: %s: not found\n", name, count, cmd);
 }
